@@ -187,12 +187,11 @@ trait Provisions extends ProvisionUtil with AssetAction { self: SecureAction =>
   protected def activateAsset(adh: ActionDataHolder): Promise[Result] = {
     val ActionDataHolder(asset, pRequest, _, attribs) = adh
     val plugin = SoftLayer.plugin.get
-    val slId = plugin.softLayerId(asset).get
     if (attribs.nonEmpty)
       AssetLifecycle.updateAssetAttributes(
         Asset.findById(asset.getId).get, attribs
       )
-    BackgroundProcessor.send(ActivationProcessor(slId)(request)) { res =>
+    BackgroundProcessor.send(ActivationProcessor(asset)(request)) { res =>
       processProvisionAction(res) {
         case true =>
           val newAsset = Asset.findById(asset.getId).get
