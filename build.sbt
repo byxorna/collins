@@ -26,6 +26,8 @@ scalacOptions += "-language:postfixOps"
 
 scalacOptions += "-language:implicitConversions"
 
+libraryDependencies += filters
+
 libraryDependencies ++= Seq(
   "org.specs2" %% "specs2" % "2.3.13" % "test",
   "com.google.guava" % "guava" % "18.0",

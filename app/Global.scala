@@ -9,6 +9,8 @@ import play.api.mvc.Handler
 import play.api.mvc.RequestHeader
 import play.api.mvc.Result
 import play.api.mvc.Results
+import play.api.mvc.WithFilters
+import play.filters.csrf.CSRFFilter
 
 import collins.callbacks.Callback
 import collins.controllers.ApiResponse
@@ -31,7 +33,7 @@ import collins.util.security.AuthenticationAccessor
 import collins.util.security.AuthenticationProvider
 import collins.util.security.AuthenticationProviderConfig
 
-object Global extends GlobalSettings with AuthenticationAccessor with CryptoAccessor {
+object Global extends WithFilters(CSRFFilter()) with GlobalSettings with AuthenticationAccessor with CryptoAccessor {
   private[this] val logger = Logger.logger
 
   override def beforeStart(app: Application) {
