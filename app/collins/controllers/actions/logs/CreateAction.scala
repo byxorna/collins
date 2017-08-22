@@ -5,6 +5,7 @@ import scala.concurrent.Future
 import org.jsoup.Jsoup
 import org.jsoup.safety.Whitelist
 
+import play.filters.csrf.CSRF
 import play.api.data.Form
 import play.api.data.Forms.tuple
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
@@ -54,6 +55,9 @@ case class CreateAction(
 
   type DataForm = Tuple3[String,Option[String],Option[String]]
   type FilledForm = Tuple3[String,LogSource.LogSource,LogMessageType.LogMessageType]
+
+  val token = CSRF.getToken(request)
+
   val dataForm: Form[DataForm] = Form(tuple(
     "message" -> validatedText(1),
     "source" -> validatedOptionalText(1),

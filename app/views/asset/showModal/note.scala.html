@@ -2,10 +2,12 @@
 
 @import helper._
 @import util._
+@token = @{play.filters.csrf.CSRF.getToken(req).get}
 @container("asset-note", "assetNoteLabel") {
   @header("Create new note")
   @form(collins.app.routes.CookieApi.submitLogData(aa.asset.tag), Symbol("data-form") -> "true", Symbol("data-error") -> "noteError", Symbol("data-modal") -> "asset-note", Symbol("data-refresh") -> "table.log-data") {
   <div class="modal-body">
+    @CSRF.formField(token)
     @formFieldRow {
       @formLabelInline("type","Note Type")
       @formInputInline {
